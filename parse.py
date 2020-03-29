@@ -17,7 +17,6 @@ def parse(path):
 class Entry:
 
     def __init__(self, data):
-
         self.title = data['movie_title']
         self.link =  data['rotten_tomatoes_link']
         self.date = data.get('in_theaters_date') or data.get('on_streaming_date')
@@ -38,7 +37,6 @@ class Entry:
         return self.rating_critic_n >= min_ratings and self.rating_aud_n >= min_ratings
 
     def __str__(self):
-
         title = "{} ({})".format(self.title, self.date[:4])
         return "{:<45} Critic score {:>3} (n={:>3}), Audience score {:>3} (n={:>6})".format(
                 title,
@@ -49,7 +47,7 @@ def biggest_difference(entries, critic_higher=False, num=100):
     def sort_key(entry):
         factor = 1 if critic_higher else -1
         return (entry.rating_aud - entry.rating_critic) * factor
-    copy = list(entries)[:]
+    copy = list(entries)
     copy.sort(key=sort_key)
     return copy
 
@@ -81,18 +79,18 @@ if __name__=="__main__":
 
     print(fmt_group(
         "Popular (n≥{}) movies with higher audience scores".format(popularity_cutoff),
-        biggest_difference(popular_entries)[:SAMPLE]))
+        biggest_difference(popular_entries, num=SAMPLE)))
 
     print(fmt_group(
         "Popular (n≥{}) movies with higher critic scores".format(popularity_cutoff),
-        biggest_difference(popular_entries, critic_higher=True)[:SAMPLE]))
+        biggest_difference(popular_entries, critic_higher=True, num=SAMPLE)))
 
     print(fmt_group(
         "All movies with higher audience scores",
-        biggest_difference(entries)[:SAMPLE]))
+        biggest_difference(entries, num=SAMPLE)))
 
     print(fmt_group(
         "All movies with higher critic scores",
-        biggest_difference(entries, critic_higher=True)[:SAMPLE]))
+        biggest_difference(entries, critic_higher=True, num=SAMPLE)))
 
 
