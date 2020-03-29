@@ -53,46 +53,37 @@ def biggest_difference(entries, critic_higher=False, num=100):
     copy.sort(key=sort_key)
     return copy
 
-def fmt_group(header, entries):
-    # format for github's markdown table viewer
-    s = "\n"
-    s += "## {}\n\n".format(header)
-    s += "| Title | Critic score | Critic reviews | Audience score | Audience reviews |\n"
-    s += "|-------|--------------|----------------|----------------|------------------|\n"
-    for e in entries:
-        title = "[{title} ({year})]({link})".format(title=e.title, year=e.date[:4],
-                link="https://www.rottentomatoes.com"+e.link)
-        s += "| {title} | {critic} | {critic_n} | {aud} | {aud_n} |\n".format(
-                title=title,
-                critic=int(e.rating_critic), critic_n = e.rating_critic_n,
-                aud=int(e.rating_aud), aud_n=e.rating_aud_n)
-    return s
-
-
 if __name__=="__main__":
-    SAMPLE = 30
+    SAMPLE = 10
 
     entries_all = parse(PATH)
     entries = list(filter(Entry.valid, entries_all))
+
+    print(entries[0].link)
+    assert False
+
+    print("Skipping {} entries missing rating data".format(len(entries_all) - len(entries)))
+    print("Total ratings: {}".format(len(entries)))
+
+    print("\nAll movies with higher audience scores:")
+    for e in biggest_difference(entries)[:SAMPLE]:
+        print('\t', e)
+
+    print("\nAll movies with higher critic scores:")
+    for e in biggest_difference(entries, critic_higher=True)[:SAMPLE]:
+        print('\t', e)
 
     popularity_cutoff = 50  # omit reviews with too few ratings
     popularity_filter = lambda e: e.enough_ratings(min_ratings=popularity_cutoff)
     popular_entries = list(filter(popularity_filter, entries))
 
-    print(fmt_group(
-        "Popular (n>{}) movies with higher audience scores".format(popularity_cutoff),
-        biggest_difference(popular_entries)[:SAMPLE]))
+    print("\nPopular (n>{}) movies with higher audience scores:".format(popularity_cutoff))
+    for e in biggest_difference(popular_entries)[:SAMPLE]:
+        print('\t', e)
 
-    print(fmt_group(
-        "Popular (n>{}) movies with higher critic scores".format(popularity_cutoff),
-        biggest_difference(popular_entries, critic_higher=True)[:SAMPLE]))
-
-    print(fmt_group(
-        "All movies with higher audience scores",
-        biggest_difference(entries)[:SAMPLE]))
-
-    print(fmt_group(
-        "All movies with higher critic scores",
-        biggest_difference(entries, critic_higher=True)[:SAMPLE]))
+    print("\nPopular (n>{}) movies with higher critic scores:".format(popularity_cutoff))
+    ret = biggest_difference(popular_entries, critic_higher=True)
+    for e in biggest_difference(popular_entries, critic_higher=True)[:SAMPLE]:
+        print('\t', e)
 
 
