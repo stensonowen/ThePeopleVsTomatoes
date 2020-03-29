@@ -1,7 +1,7 @@
 Skipping 252 entries missing rating data
 Total ratings: 16386
 
-Popular (n>50) movies with higher audience scores:
+Popular (n≥50) movies with higher audience scores:
 	 Stonewall (2015)                              Critic score  10 (n= 73), Audience score  85 (n=  3185)
 	 Grind (2003)                                  Critic score   8 (n= 74), Audience score  79 (n= 52887)
 	 Diary of a Mad Black Woman (2005)             Critic score  16 (n=114), Audience score  87 (n= 89152)
@@ -103,7 +103,7 @@ Popular (n>50) movies with higher audience scores:
 	 Underworld (2003)                             Critic score  31 (n=161), Audience score  79 (n=495821)
 	 Waist Deep (2006)                             Critic score  28 (n= 76), Audience score  76 (n= 94149)
 
-Popular (n>50) movies with higher critic scores:
+Popular (n≥50) movies with higher critic scores:
 	 Knock Down the House (2019)                   Critic score 100 (n= 86), Audience score  17 (n=  2686)
 	 Hale County This Morning, This Evening (2018) Critic score  97 (n= 66), Audience score  38 (n=   188)
 	 Let the Sunshine In (Un beau soleil intérieur) (2018) Critic score  86 (n=138), Audience score  30 (n=   589)
