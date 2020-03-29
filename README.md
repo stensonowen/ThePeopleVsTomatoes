@@ -8,7 +8,7 @@ It contains some guy's output from scraping rotten tomatoes 5 months ago and has
 
 ## Results
 
-### Popular (n>50) movies with higher audience scores
+### Popular (n≥50) movies with higher audience scores
 
 | Title | Critic score | Critic reviews | Audience score | Audience reviews |
 |-------|--------------|----------------|----------------|------------------|
@@ -44,7 +44,7 @@ It contains some guy's output from scraping rotten tomatoes 5 months ago and has
 | [The Dirt (2019)](https://www.rottentomatoes.com/m/the_dirt_2019) | 39 | 70 | 95 | 6493 |
 
 
-### Popular (n>50) movies with higher critic scores
+### Popular (n≥50) movies with higher critic scores
 
 | Title | Critic score | Critic reviews | Audience score | Audience reviews |
 |-------|--------------|----------------|----------------|------------------|
