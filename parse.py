@@ -80,11 +80,11 @@ if __name__=="__main__":
     popular_entries = list(filter(popularity_filter, entries))
 
     print(fmt_group(
-        "Popular (n>{}) movies with higher audience scores".format(popularity_cutoff),
+        "Popular (n≥{}) movies with higher audience scores".format(popularity_cutoff),
         biggest_difference(popular_entries)[:SAMPLE]))
 
     print(fmt_group(
-        "Popular (n>{}) movies with higher critic scores".format(popularity_cutoff),
+        "Popular (n≥{}) movies with higher critic scores".format(popularity_cutoff),
         biggest_difference(popular_entries, critic_higher=True)[:SAMPLE]))
 
     print(fmt_group(
