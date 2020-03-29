@@ -2,7 +2,7 @@
 
 import csv
 
-PATH = "/home/owen/py/rt/rotten_tomatoes_movies.csv"
+PATH = "./data/rotten_tomatoes_movies.csv"
     # https://www.kaggle.com/stefanoleone992/rotten-tomatoes-movies-and-critics-datasets
     # last updated 2019/11/08
     # 16,638 rows 
@@ -17,7 +17,6 @@ def parse(path):
 class Entry:
 
     def __init__(self, data):
-
         self.title = data['movie_title']
         self.link =  data['rotten_tomatoes_link']
         self.date = data.get('in_theaters_date') or data.get('on_streaming_date')
@@ -38,32 +37,28 @@ class Entry:
         return self.rating_critic_n >= min_ratings and self.rating_aud_n >= min_ratings
 
     def __str__(self):
-
         title = "{} ({})".format(self.title, self.date[:4])
         return "{:<45} Critic score {:>3} (n={:>3}), Audience score {:>3} (n={:>6})".format(
                 title,
                 int(self.rating_critic), self.rating_critic_n,
                 int(self.rating_aud), self.rating_aud_n)
 
-def biggest_difference(entries, critic_higher=False, num=100):
+def biggest_difference(entries, critic_higher=False):
     def sort_key(entry):
         factor = 1 if critic_higher else -1
         return (entry.rating_aud - entry.rating_critic) * factor
-    copy = list(entries)[:]
+    copy = list(entries)
     copy.sort(key=sort_key)
     return copy
 
 if __name__=="__main__":
-    SAMPLE = 10
+    SAMPLE = 100
 
     entries_all = parse(PATH)
     entries = list(filter(Entry.valid, entries_all))
 
-    print(entries[0].link)
-    assert False
-
     print("Skipping {} entries missing rating data".format(len(entries_all) - len(entries)))
-    print("Total ratings: {}".format(len(entries)))
+    print("Total entries: {}".format(len(entries)))
 
     print("\nAll movies with higher audience scores:")
     for e in biggest_difference(entries)[:SAMPLE]:
@@ -73,16 +68,15 @@ if __name__=="__main__":
     for e in biggest_difference(entries, critic_higher=True)[:SAMPLE]:
         print('\t', e)
 
-    popularity_cutoff = 50  # omit reviews with too few ratings
+    popularity_cutoff = 50  # omit reviews with not enough ratings
     popularity_filter = lambda e: e.enough_ratings(min_ratings=popularity_cutoff)
     popular_entries = list(filter(popularity_filter, entries))
 
-    print("\nPopular (n>{}) movies with higher audience scores:".format(popularity_cutoff))
+    print("\nPopular (n≥{}) movies with higher audience scores:".format(popularity_cutoff))
     for e in biggest_difference(popular_entries)[:SAMPLE]:
         print('\t', e)
 
-    print("\nPopular (n>{}) movies with higher critic scores:".format(popularity_cutoff))
-    ret = biggest_difference(popular_entries, critic_higher=True)
+    print("\nPopular (n≥{}) movies with higher critic scores:".format(popularity_cutoff))
     for e in biggest_difference(popular_entries, critic_higher=True)[:SAMPLE]:
         print('\t', e)
 
